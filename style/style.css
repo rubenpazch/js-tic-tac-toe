@@ -4,8 +4,9 @@ body {
 
 #board {
   position: relative;
-  width: 60%;
+  width: 30%;
   margin: 0 auto;
+  margin: 20vh 0 0 35vw;
 }
 
 .board-img {
@@ -73,4 +74,21 @@ body {
   position: absolute;
   top: 69%;
   left: 69%;
+}
+
+.nav-game {
+  background-color: #b1ecb1;
+}
+
+.player-form{
+  width: 30%;    
+}
+
+.wrapper-form{
+  width: 100%;  
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20vh;
 }
