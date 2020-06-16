@@ -40,6 +40,7 @@ const displayModule = (() => {
     for (let i = 1; i < 10; i += 1) {
       const cellString = `cell-${i.toString()}`;
       const cell = document.getElementById(cellString);
+      cell.style.opacity = 0;
       cell.innerHTML = '';
     }
   };
@@ -60,8 +61,28 @@ const displayModule = (() => {
     element.onclick = action;
   };
 
+  const fadeIn = (element) => {
+    let op = 0.1; // initial opacity
+    element.style.display = 'block';
+    const timer = setInterval(() => {
+      if (op >= 1) {
+        clearInterval(timer);
+      }
+      element.style.opacity = op;
+      element.style.filter = `alpha(opacity=${op * 100})`;
+      op += op * 0.1;
+    }, 10);
+  };
+
   return {
-    showMessageDraw, showElement, updateScores, cleanCells, hideElement, cleanForm, addOnClickEvent,
+    showMessageDraw,
+    showElement,
+    updateScores,
+    cleanCells,
+    hideElement,
+    cleanForm,
+    addOnClickEvent,
+    fadeIn,
   };
 })();
 
@@ -160,6 +181,7 @@ const boardModule = (() => {
       const cell = document.getElementById(cellId);
       const turnSuccess = fillBoardCell(index);
       if (turnSuccess !== -1) {
+        displayModule.fadeIn(cell);
         if (checkWin()) {
           displayModule.showElement('win-screen');
           showMessageWinner();
