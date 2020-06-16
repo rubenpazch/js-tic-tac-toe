@@ -33,7 +33,23 @@ const displayModule = (() => {
     }
   };
 
-  return { showMessageDraw, showElement, updateScores, cleanCells, hideElement }
+
+  const cleanForm = () => {
+    document.getElementById('PlayerName1').value = '';
+    document.getElementById('PlayerName2').value = '';
+    document.getElementById('name-player-1').innerHTML = '[name]';
+    document.getElementById('name-player-2').innerHTML = '[name]';
+    document.getElementById('score-player-1').innerHTML = '[score]';
+    document.getElementById('score-player-2').innerHTML = '[score]';
+    document.getElementById('show-symbol-player-1').innerHTML = '[symbol]';
+    document.getElementById('show-symbol-player-2').innerHTML = '[symbol]';
+  };
+
+  const addOnClickEvent = (element, action) => {
+    element.onclick = action;
+  };
+
+  return { showMessageDraw, showElement, updateScores, cleanCells, hideElement,cleanForm, addOnClickEvent }
 })();
 
 const boardModule = (() => {
@@ -65,14 +81,70 @@ const boardModule = (() => {
   };
 
   const resetGame = () => {
-    boardModule.cells = ['', '', '', '', '', '', '', '', ''];
+    console.log(cells);
+    this.cells.forEach (x => x = "");
+    console.log(cells);
     displayModule.cleanCells;
     continueGame = true;
   };
 
+  const  newGame = () =>  {
+    displayModule.cleanCells;
+    displayModule.hideElement('board');
+    displayModule.showElement('players');
+    displayModule.cleanForm();
+    continueGame = true;
+  };
   
+  const startGame = () => {
+    displayModule.showElement('board');
+    displayModule.showElement('reset-top-button');
+    const namePlayer1 = document.getElementById('PlayerName1');
+    const namePlayer2 = document.getElementById('PlayerName2');
+    const symbol = document.getElementById('inputSymbolGame');
+  
+  
+    if (namePlayer1.value === '') {
+      player1 = Player('player-1', "X");
+      player2 = Player('player-2', "O");
+    } else {
+      player1 = Player(namePlayer1.value);
+      player2 = Player(namePlayer2.value);
+    }
+  
+    if (symbol.value === 1) {
+      player1.symbol = 'X';
+      player2.symbol = 'O';
+    } else {
+      player1.symbol = 'O';
+      player2.symbol = 'X';
+    }
+  
+  
+    document.getElementById('show-symbol-player-1').innerHTML = player1.symbol;
+    document.getElementById('show-symbol-player-2').innerHTML = player2.symbol;
+  
+    document.getElementById('name-player-1').innerHTML = player1.name;
+    document.getElementById('name-player-2').innerHTML = player2.name;
+    displayModule.updateScores();
+  
+    displayModule.hideElement('players');
+  };
+  
+  const showMessageWinner = () => {
+    const winMessage = document.getElementById('win-message');
+    if (turn === player1.symbol) {
+      winMessage.innerHTML = `${player1.name} wins this round!`;
+      player1.increaseScore;
+    }
+    if (turn === player2.symbol) {
+      winMessage.innerHTML = `${player2.name} wins this round!`;
+      player2.increaseScore;
+    }
+  };
 
-  return { cells, checkWin, fillBoardCell, checkDraw, resetGame };
+
+  return { cells, checkWin, fillBoardCell, checkDraw, resetGame, newGame, startGame, showMessageWinner };
 })();
 
 const Player = (name, symbol) => { 
@@ -86,17 +158,7 @@ const Player = (name, symbol) => {
   return {name, symbol, increaseScore, getScore}
 };
 
-function showMessageWinner() {
-  const winMessage = document.getElementById('win-message');
-  if (turn === player1.symbol) {
-    winMessage.innerHTML = `${player1.name} wins this round!`;
-    player1.increaseScore;
-  }
-  if (turn === player2.symbol) {
-    winMessage.innerHTML = `${player2.name} wins this round!`;
-    player2.increaseScore;
-  }
-}
+
 
 function takeTurn(cellId, index) {
   if (continueGame) {
@@ -105,7 +167,7 @@ function takeTurn(cellId, index) {
     if (turnSuccess !== -1) {
       if (boardModule.checkWin()) {
         displayModule.showElement('win-screen');
-        showMessageWinner();
+        boardModule.showMessageWinner();
         displayModule.updateScores();
         continueGame = false;
       }
@@ -124,73 +186,18 @@ function takeTurn(cellId, index) {
   }
 }
 
-function cleanForm() {
-  document.getElementById('PlayerName1').value = '';
-  document.getElementById('PlayerName2').value = '';
-  document.getElementById('name-player-1').innerHTML = '[name]';
-  document.getElementById('name-player-2').innerHTML = '[name]';
-  document.getElementById('score-player-1').innerHTML = '[score]';
-  document.getElementById('score-player-2').innerHTML = '[score]';
-  document.getElementById('show-symbol-player-1').innerHTML = '[symbol]';
-  document.getElementById('show-symbol-player-2').innerHTML = '[symbol]';
-}
-
-function newGame() {
-  displayModule.cleanCells;
-  displayModule.hideElement('board');
-  displayModule.showElement('players');
-  cleanForm();
-  continueGame = true;
-}
-
-function addOnClickEvent(element, action) {
-  element.onclick = action;
-}
-
-function startGame() {
-  displayModule.showElement('board');
-  displayModule.showElement('reset-top-button');
-  const namePlayer1 = document.getElementById('PlayerName1');
-  const namePlayer2 = document.getElementById('PlayerName2');
-  const symbol = document.getElementById('inputSymbolGame');
-
-
-  if (namePlayer1.value === '') {
-    player1 = Player('player-1', "X");
-    player2 = Player('player-2', "O");
-  } else {
-    player1 = Player(namePlayer1.value);
-    player2 = Player(namePlayer2.value);
-  }
-
-  if (symbol.value === 1) {
-    player1.symbol = 'X';
-    player2.symbol = 'O';
-  } else {
-    player1.symbol = 'O';
-    player2.symbol = 'X';
-  }
-
-
-  document.getElementById('show-symbol-player-1').innerHTML = player1.symbol;
-  document.getElementById('show-symbol-player-2').innerHTML = player2.symbol;
-
-  document.getElementById('name-player-1').innerHTML = player1.name;
-  document.getElementById('name-player-2').innerHTML = player2.name;
-  displayModule.updateScores();
-
-  displayModule.hideElement('players');
-}
-
 window.onload = function () {
   displayModule.hideElement('board');
   displayModule.showElement('players');
   displayModule.hideElement('reset-top-button');
+  //displayModule.hideElement('reset-top-button-2');
 
   const newGameButton = document.getElementById('new-game-button');
-  addOnClickEvent(newGameButton, newGame);
+  displayModule.addOnClickEvent(newGameButton, boardModule.newGame);
   const startGameButton = document.getElementById('start-game-button');
-  addOnClickEvent(startGameButton, startGame);
+  displayModule.addOnClickEvent(startGameButton, boardModule.startGame);
   const resetGameButton = document.getElementById('reset-top-button');
-  addOnClickEvent(resetGameButton, boardModule.resetGame);
+  displayModule.addOnClickEvent(resetGameButton, boardModule.resetGame);
+  //const resetGameButton2 = document.getElementById('reset-top-button-2');
+  //displayModule.addOnClickEvent(resetGameButton2, boardModule.resetGame);
 };
