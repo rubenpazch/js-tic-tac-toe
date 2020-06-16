@@ -14,11 +14,26 @@ const displayModule = (() => {
     form.style.display = 'block';
   };
   
+  const hideElement = (elementId) => {
+    const form = document.getElementById(elementId);
+    form.style.display = 'none';
+  };
+  
+
   const updateScores = () => {
     document.getElementById('score-player-1').innerHTML = player1.score;
     document.getElementById('score-player-2').innerHTML = player2.score;
   };
-  return { showMessageDraw, showElement, updateScores }
+
+  const cleanCells = () => {
+    for (let i = 1; i < 10; i += 1) {
+      const cellString = `cell-${i.toString()}`;
+      const cell = document.getElementById(cellString);
+      cell.innerHTML = '';
+    }
+  };
+
+  return { showMessageDraw, showElement, updateScores, cleanCells, hideElement }
 })();
 
 const boardModule = (() => {
@@ -49,14 +64,26 @@ const boardModule = (() => {
     return -1;
   };
 
-  return { cells, checkWin, fillBoardCell, checkDraw };
+  const resetGame = () => {
+    boardModule.cells = ['', '', '', '', '', '', '', '', ''];
+    displayModule.cleanCells;
+    continueGame = true;
+  };
+
+  
+
+  return { cells, checkWin, fillBoardCell, checkDraw, resetGame };
 })();
 
-const Player = (name, score, symbol) => { 
+const Player = (name, symbol) => { 
   let _score = 0;
-  const getScore = () => _score;
-  const increaseScore = () => _score += 1;
-  return {name, score, symbol, increaseScore, getScore}
+  const getScore = () =>{
+    return _score;
+  };
+  const increaseScore = () => {
+    _score += 1;
+  };
+  return {name, symbol, increaseScore, getScore}
 };
 
 function showMessageWinner() {
@@ -74,7 +101,7 @@ function showMessageWinner() {
 function takeTurn(cellId, index) {
   if (continueGame) {
     const cell = document.getElementById(cellId);
-    const turnSuccess = fillBoardCell(index);
+    const turnSuccess = boardModule.fillBoardCell(index);
     if (turnSuccess !== -1) {
       if (boardModule.checkWin()) {
         displayModule.showElement('win-screen');
@@ -82,7 +109,7 @@ function takeTurn(cellId, index) {
         displayModule.updateScores();
         continueGame = false;
       }
-      if (checkDraw()) {
+      if (boardModule.checkDraw()) {
         displayModule.showElement('win-screen');
         displayModule.showMessageDraw();
         continueGame = false;
@@ -97,25 +124,6 @@ function takeTurn(cellId, index) {
   }
 }
 
-function cleanCells() {
-  for (let i = 1; i < 10; i += 1) {
-    const cellString = `cell-${i.toString()}`;
-    const cell = document.getElementById(cellString);
-    cell.innerHTML = '';
-  }
-}
-
-function resetGame() {
-  boardModule.cells = ['', '', '', '', '', '', '', '', ''];
-  cleanCells();
-  continueGame = true;
-}
-
-function hideElement(elementId) {
-  const form = document.getElementById(elementId);
-  form.style.display = 'none';
-}
-
 function cleanForm() {
   document.getElementById('PlayerName1').value = '';
   document.getElementById('PlayerName2').value = '';
@@ -128,8 +136,8 @@ function cleanForm() {
 }
 
 function newGame() {
-  cleanCells();
-  hideElement('board');
+  displayModule.cleanCells;
+  displayModule.hideElement('board');
   displayModule.showElement('players');
   cleanForm();
   continueGame = true;
@@ -140,7 +148,7 @@ function addOnClickEvent(element, action) {
 }
 
 function startGame() {
-  displayModule.showelement('board');
+  displayModule.showElement('board');
   displayModule.showElement('reset-top-button');
   const namePlayer1 = document.getElementById('PlayerName1');
   const namePlayer2 = document.getElementById('PlayerName2');
@@ -148,11 +156,11 @@ function startGame() {
 
 
   if (namePlayer1.value === '') {
-    player1 = Player('player-1');
-    player2 = Player('player-2');
+    player1 = Player('player-1', "X");
+    player2 = Player('player-2', "O");
   } else {
-    player1 = Player(namePlayer1.value, 0);
-    player2 = Player(namePlayer2.value, 0);
+    player1 = Player(namePlayer1.value);
+    player2 = Player(namePlayer2.value);
   }
 
   if (symbol.value === 1) {
@@ -171,16 +179,18 @@ function startGame() {
   document.getElementById('name-player-2').innerHTML = player2.name;
   displayModule.updateScores();
 
-  hideElement('players');
+  displayModule.hideElement('players');
 }
 
 window.onload = function () {
-  hideElement('board');
+  displayModule.hideElement('board');
   displayModule.showElement('players');
-  hideElement('reset-top-button');
+  displayModule.hideElement('reset-top-button');
 
   const newGameButton = document.getElementById('new-game-button');
   addOnClickEvent(newGameButton, newGame);
   const startGameButton = document.getElementById('start-game-button');
   addOnClickEvent(startGameButton, startGame);
+  const resetGameButton = document.getElementById('reset-top-button');
+  addOnClickEvent(resetGameButton, boardModule.resetGame);
 };
