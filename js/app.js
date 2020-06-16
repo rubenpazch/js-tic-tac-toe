@@ -1,181 +1,179 @@
-let turn = "X";
+let turn = 'X';
 let player1;
 let player2;
 let continueGame = true;
 
 const boardModule = (() => {
-  const cells = ["", "", "", "", "", "", "", "", ""];
+  const cells = ['', '', '', '', '', '', '', '', ''];
   return { cells };
 })();
 
 function fillBoardCell(index) {
-  if (boardModule.cells[index - 1] == "") {
+  if (boardModule.cells[index - 1] === '') {
     boardModule.cells[index - 1] = turn;
-  } else {
-    console.log("already used")
-    return -1;
+    return index;
   }
+  return -1;
 }
-
-function checkDraw(){
-  if((boardModule.cells.every(x => x != "")) && !checkWin())
-    return true;
-  else
-    return false;
-}
-
-const Player = (name, score, symbol) => {
-  return { name, score, symbol };
-};
 
 function checkWin() {
-  current_board = boardModule.cells;
-  temp_array = [];
-  temp_array.push( turn == current_board[0] && turn == current_board[1] && turn == current_board[2]);
-  temp_array.push( turn == current_board[3] && turn == current_board[4] && turn == current_board[5]);
-  temp_array.push( turn == current_board[6] && turn == current_board[7] && turn == current_board[8]);
-  temp_array.push( turn == current_board[0] && turn == current_board[3] && turn == current_board[6]);
-  temp_array.push( turn == current_board[1] && turn == current_board[4] && turn == current_board[7]);
-  temp_array.push( turn == current_board[2] && turn == current_board[5] && turn == current_board[8]);  
-  temp_array.push( turn == current_board[0] && turn == current_board[4] && turn == current_board[8]);  
-  temp_array.push( turn == current_board[6] && turn == current_board[4] && turn == current_board[2]);  
-  return temp_array.some( x => x == true );
+  const currentBoard = boardModule.cells;
+  const tempArray = [];
+  tempArray.push(turn === currentBoard[0] && turn === currentBoard[1] && turn === currentBoard[2]);
+  tempArray.push(turn === currentBoard[3] && turn === currentBoard[4] && turn === currentBoard[5]);
+  tempArray.push(turn === currentBoard[6] && turn === currentBoard[7] && turn === currentBoard[8]);
+  tempArray.push(turn === currentBoard[0] && turn === currentBoard[3] && turn === currentBoard[6]);
+  tempArray.push(turn === currentBoard[1] && turn === currentBoard[4] && turn === currentBoard[7]);
+  tempArray.push(turn === currentBoard[2] && turn === currentBoard[5] && turn === currentBoard[8]);
+  tempArray.push(turn === currentBoard[0] && turn === currentBoard[4] && turn === currentBoard[8]);
+  tempArray.push(turn === currentBoard[6] && turn === currentBoard[4] && turn === currentBoard[2]);
+  return tempArray.some(x => x === true);
 }
 
-function showMessageWinner(){
-  let winMessage = document.getElementById("win-message");
-  if (turn == player1.symbol){
+function checkDraw() {
+  if ((boardModule.cells.every(x => x !== '')) && !checkWin()) return true;
+  return false;
+}
+
+const Player = (name, score, symbol) => ({ name, score, symbol });
+
+function showMessageWinner() {
+  const winMessage = document.getElementById('win-message');
+  if (turn === player1.symbol) {
     winMessage.innerHTML = `${player1.name} wins this round!`;
     player1.score += 1;
-  } 
-  if (turn == player2.symbol){
+  }
+  if (turn === player2.symbol) {
     winMessage.innerHTML = `${player2.name} wins this round!`;
     player2.score += 1;
   }
-} 
-
-function showMessageDraw(){
-  let winMessage = document.getElementById("win-message");
-  winMessage.innerHTML = `It's a draw`;
 }
 
-function takeTurn(cellId, index) {
-  if (continueGame){
-    cell = document.getElementById(cellId);
-    let turnSuccess = fillBoardCell(index);
-    if (turnSuccess != -1){
-      if (checkWin()){
-        showElement("win-screen");
-        showMessageWinner();
-        updateScores();
-        continueGame = false;
-      }
-      if (checkDraw()){
-        showElement("win-screen");
-        showMessageDraw();
-        continueGame = false;
-      }
-      cell.innerHTML = `<img class='board-img' src='img/tictactoe${turn}.svg'>`;
-      if (turn == "X") {
-        turn = "O";
-      } else {
-        turn = "X";
-      }
-    }  
-  }  
-}
-
-function resetGame(){
-  boardModule.cells = ["", "", "", "", "", "", "", "", ""];
-  cleanCells();
-  continueGame = true;
-}
-
-function cleanCells(){
-  for(let i = 1; i<10; i+=1){
-    let cellString = `cell-${i.toString()}`;
-    cell = document.getElementById(cellString);      
-    cell.innerHTML = "";
-  }
-}
-
-function hideElement(elementId) {
-  const form = document.getElementById(elementId);
-  form.style.display = 'none';
-  console.log("hiding " + elementId);
+function showMessageDraw() {
+  const winMessage = document.getElementById('win-message');
+  winMessage.innerHTML = 'It\'s a draw';
 }
 
 function showElement(elementId) {
   const form = document.getElementById(elementId);
   form.style.display = 'block';
-  console.log("showing " + elementId);
 }
-
-
-window.onload = function() {
-  hideElement("board");
-  showElement("players");
-  hideElement("reset-top-button");
-};
 
 function updateScores() {
-  document.getElementById("score-player-1").innerHTML =  player1.score;
-  document.getElementById("score-player-2").innerHTML =  player2.score;
+  document.getElementById('score-player-1').innerHTML = player1.score;
+  document.getElementById('score-player-2').innerHTML = player2.score;
 }
 
-function startGame(){
-  showElement("board");
-  showElement("reset-top-button");
-  let namePlayer1 = document.getElementById("PlayerName1");
-  let namePlayer2 = document.getElementById("PlayerName2");
-  let symbol = document.getElementById("inputSymbolGame");
+function takeTurn(cellId, index) {
+  if (continueGame) {
+    const cell = document.getElementById(cellId);
+    const turnSuccess = fillBoardCell(index);
+    if (turnSuccess !== -1) {
+      if (checkWin()) {
+        showElement('win-screen');
+        showMessageWinner();
+        updateScores();
+        continueGame = false;
+      }
+      if (checkDraw()) {
+        showElement('win-screen');
+        showMessageDraw();
+        continueGame = false;
+      }
+      cell.innerHTML = `<img class='board-img' src='img/tictactoe${turn}.svg'>`;
+      if (turn === 'X') {
+        turn = 'O';
+      } else {
+        turn = 'X';
+      }
+    }
+  }
+}
 
-  
+function cleanCells() {
+  for (let i = 1; i < 10; i += 1) {
+    const cellString = `cell-${i.toString()}`;
+    const cell = document.getElementById(cellString);
+    cell.innerHTML = '';
+  }
+}
 
-  if (namePlayer1.value ==""){
-    player1 = Player("player-1", 0);  
-    player2 = Player("player-2", 0);
-  }else {
-    player1 = Player(namePlayer1.value, 0);  
+function resetGame() {
+  boardModule.cells = ['', '', '', '', '', '', '', '', ''];
+  cleanCells();
+  continueGame = true;
+}
+
+function hideElement(elementId) {
+  const form = document.getElementById(elementId);
+  form.style.display = 'none';
+}
+
+function cleanForm() {
+  document.getElementById('PlayerName1').value = '';
+  document.getElementById('PlayerName2').value = '';
+  document.getElementById('name-player-1').innerHTML = '[name]';
+  document.getElementById('name-player-2').innerHTML = '[name]';
+  document.getElementById('score-player-1').innerHTML = '[score]';
+  document.getElementById('score-player-2').innerHTML = '[score]';
+  document.getElementById('show-symbol-player-1').innerHTML = '[symbol]';
+  document.getElementById('show-symbol-player-2').innerHTML = '[symbol]';
+}
+
+function newGame() {
+  cleanCells();
+  hideElement('board');
+  showElement('players');
+  cleanForm();
+  continueGame = true;
+}
+
+function addOnClickEvent(element, action) {
+  element.onclick = action;
+}
+
+function startGame() {
+  showElement('board');
+  showElement('reset-top-button');
+  const namePlayer1 = document.getElementById('PlayerName1');
+  const namePlayer2 = document.getElementById('PlayerName2');
+  const symbol = document.getElementById('inputSymbolGame');
+
+
+  if (namePlayer1.value === '') {
+    player1 = Player('player-1', 0);
+    player2 = Player('player-2', 0);
+  } else {
+    player1 = Player(namePlayer1.value, 0);
     player2 = Player(namePlayer2.value, 0);
   }
 
-  if (symbol.value == 1)
-  {
-    player1.symbol = "X";
-    player2.symbol = "O";
+  if (symbol.value === 1) {
+    player1.symbol = 'X';
+    player2.symbol = 'O';
+  } else {
+    player1.symbol = 'O';
+    player2.symbol = 'X';
   }
-  else{
-    player1.symbol = "O";
-    player2.symbol = "X";
-  }
-  console.log(player1);
-  console.log(player2);
-  
 
-  document.getElementById("show-symbol-player-1").innerHTML = player1.symbol;
-  document.getElementById("show-symbol-player-2").innerHTML = player2.symbol;
 
-  document.getElementById("name-player-1").innerHTML = player1.name;
-  document.getElementById("name-player-2").innerHTML = player2.name;
+  document.getElementById('show-symbol-player-1').innerHTML = player1.symbol;
+  document.getElementById('show-symbol-player-2').innerHTML = player2.symbol;
+
+  document.getElementById('name-player-1').innerHTML = player1.name;
+  document.getElementById('name-player-2').innerHTML = player2.name;
   updateScores();
 
-  hideElement("players");
+  hideElement('players');
 }
 
-function newGame(){
-  cleanCells();
-  hideElement("board");
-  showElement("players");
-  cleanForm();
-  continueGame = true; 
-}
+window.onload = function () {
+  hideElement('board');
+  showElement('players');
+  hideElement('reset-top-button');
 
-function cleanForm(){
-  document.getElementById("PlayerName1").value ="";
-  document.getElementById("PlayerName2").value ="";
-  document.getElementById("name-player-1").innerHTML = "[name]";
-  document.getElementById("name-player-2").innerHTML = "[name]";
-  document.getElementById("score-player-1").innerHTML = "[score]";
-  document.getElementById("score-player-2").innerHTML = "[score]";
-}
+  const newGameButton = document.getElementById('new-game-button');
+  addOnClickEvent(newGameButton, newGame);
+  const startGameButton = document.getElementById('start-game-button');
+  addOnClickEvent(startGameButton, startGame);
+};
