@@ -19,9 +19,10 @@
   </head>
   <body>
     <ul class="nav justify-content-center nav-game p-2">
+      <li>( <span id="show-symbol-player-1"> [symbol] </span> )</li>
       <li class="nav-item">
         <span class="nav-link active">
-          <b>Player 1: <span id="show-symbol-player-1">( X ) </span> </b><span id="name-player-1">[name]</span>
+          <b>Player 1:  </b><span id="name-player-1">[name]</span>
           <b>Score: </b><span id="score-player-1">[score]</span>
         </span>
       </li>
@@ -31,12 +32,14 @@
       <li class="nav-item">        
         <button type="button" onclick="newGame()" class="btn btn-info">New game</button>
       </li>
+      <li>( <span id="show-symbol-player-2"> [symbol]</span> )</li>
       <li class="nav-item">
         <span class="nav-link active">
-          <b>Player 2: <span id="show-symbol-player-1">( O ) </span></b><span id="name-player-2">[name]</span>
+          <b>Player 2:  </span></b><span id="name-player-2">[name]</span>
           <b>Score: </b><span id="score-player-2">[score]</span>
         </span>
       </li>
+      
     </ul>
 
     <div id="board">

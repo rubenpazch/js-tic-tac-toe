@@ -24,8 +24,8 @@ function checkDraw(){
     return false;
 }
 
-const Player = (name, score, simbol) => {
-  return { name, score, simbol };
+const Player = (name, score, symbol) => {
+  return { name, score, symbol };
 };
 
 function checkWin() {
@@ -44,11 +44,11 @@ function checkWin() {
 
 function showMessageWinner(){
   let winMessage = document.getElementById("win-message");
-  if (turn == "X"){
+  if (turn == player1.symbol){
     winMessage.innerHTML = `${player1.name} wins this round!`;
     player1.score += 1;
   } 
-  if (turn == "O"){
+  if (turn == player2.symbol){
     winMessage.innerHTML = `${player2.name} wins this round!`;
     player2.score += 1;
   }
@@ -151,6 +151,10 @@ function startGame(){
   }
   console.log(player1);
   console.log(player2);
+  
+
+  document.getElementById("show-symbol-player-1").innerHTML = player1.symbol;
+  document.getElementById("show-symbol-player-2").innerHTML = player2.symbol;
 
   document.getElementById("name-player-1").innerHTML = player1.name;
   document.getElementById("name-player-2").innerHTML = player2.name;
