@@ -21,8 +21,8 @@ const displayModule = (() => {
   
 
   const updateScores = () => {
-    document.getElementById('score-player-1').innerHTML = player1.score;
-    document.getElementById('score-player-2').innerHTML = player2.score;
+    document.getElementById('score-player-1').innerHTML = player1.getScore();
+    document.getElementById('score-player-2').innerHTML = player2.getScore();
   };
 
   const cleanCells = () => {
@@ -53,7 +53,7 @@ const displayModule = (() => {
 })();
 
 const boardModule = (() => {
-  const cells = ['', '', '', '', '', '', '', '', ''];
+  let cells = ['', '', '', '', '', '', '', '', ''];
   const checkWin = () => {
     const tempArray = [];
     tempArray.push(turn === cells[0] && turn === cells[1] && turn === cells[2]);
@@ -80,16 +80,15 @@ const boardModule = (() => {
     return -1;
   };
 
-  const resetGame = () => {
-    console.log(cells);
-    this.cells.forEach (x => x = "");
-    console.log(cells);
-    displayModule.cleanCells;
+  const resetGame = () => {    
+    cells = ['', '', '', '', '', '', '', '', ''];
+    displayModule.cleanCells();
     continueGame = true;
+    displayModule.hideElement("win-screen");
   };
 
   const  newGame = () =>  {
-    displayModule.cleanCells;
+    displayModule.cleanCells();
     displayModule.hideElement('board');
     displayModule.showElement('players');
     displayModule.cleanForm();
@@ -135,16 +134,16 @@ const boardModule = (() => {
     const winMessage = document.getElementById('win-message');
     if (turn === player1.symbol) {
       winMessage.innerHTML = `${player1.name} wins this round!`;
-      player1.increaseScore;
+      player1.increaseScore();
     }
     if (turn === player2.symbol) {
       winMessage.innerHTML = `${player2.name} wins this round!`;
-      player2.increaseScore;
+      player2.increaseScore();
     }
   };
 
 
-  return { cells, checkWin, fillBoardCell, checkDraw, resetGame, newGame, startGame, showMessageWinner };
+  return { checkWin, fillBoardCell, checkDraw, resetGame, newGame, startGame, showMessageWinner };
 })();
 
 const Player = (name, symbol) => { 
@@ -189,8 +188,7 @@ function takeTurn(cellId, index) {
 window.onload = function () {
   displayModule.hideElement('board');
   displayModule.showElement('players');
-  displayModule.hideElement('reset-top-button');
-  //displayModule.hideElement('reset-top-button-2');
+  displayModule.hideElement('reset-top-button');  
 
   const newGameButton = document.getElementById('new-game-button');
   displayModule.addOnClickEvent(newGameButton, boardModule.newGame);
@@ -198,6 +196,6 @@ window.onload = function () {
   displayModule.addOnClickEvent(startGameButton, boardModule.startGame);
   const resetGameButton = document.getElementById('reset-top-button');
   displayModule.addOnClickEvent(resetGameButton, boardModule.resetGame);
-  //const resetGameButton2 = document.getElementById('reset-top-button-2');
-  //displayModule.addOnClickEvent(resetGameButton2, boardModule.resetGame);
+  const resetBottomButton = document.getElementById('reset-bottom-button');
+  displayModule.addOnClickEvent(resetBottomButton, boardModule.resetGame);
 };
