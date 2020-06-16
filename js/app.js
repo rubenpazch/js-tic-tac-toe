@@ -3,65 +3,72 @@ let player1;
 let player2;
 let continueGame = true;
 
-const boardModule = (() => {
-  const cells = ['', '', '', '', '', '', '', '', ''];
-  return { cells };
+const displayModule = (() => {
+  const showMessageDraw = () => {
+    const winMessage = document.getElementById('win-message');
+    winMessage.innerHTML = 'It\'s a draw';
+  };
+  
+  const showElement = (elementId) => {
+    const form = document.getElementById(elementId);
+    form.style.display = 'block';
+  };
+  
+  const updateScores = () => {
+    document.getElementById('score-player-1').innerHTML = player1.score;
+    document.getElementById('score-player-2').innerHTML = player2.score;
+  };
+  return { showMessageDraw, showElement, updateScores }
 })();
 
-function fillBoardCell(index) {
-  if (boardModule.cells[index - 1] === '') {
-    boardModule.cells[index - 1] = turn;
-    return index;
-  }
-  return -1;
-}
+const boardModule = (() => {
+  const cells = ['', '', '', '', '', '', '', '', ''];
+  const checkWin = () => {
+    const tempArray = [];
+    tempArray.push(turn === cells[0] && turn === cells[1] && turn === cells[2]);
+    tempArray.push(turn === cells[3] && turn === cells[4] && turn === cells[5]);
+    tempArray.push(turn === cells[6] && turn === cells[7] && turn === cells[8]);
+    tempArray.push(turn === cells[0] && turn === cells[3] && turn === cells[6]);
+    tempArray.push(turn === cells[1] && turn === cells[4] && turn === cells[7]);
+    tempArray.push(turn === cells[2] && turn === cells[5] && turn === cells[8]);
+    tempArray.push(turn === cells[0] && turn === cells[4] && turn === cells[8]);
+    tempArray.push(turn === cells[6] && turn === cells[4] && turn === cells[2]);
+    return tempArray.some(x => x === true);
+  };
 
-function checkWin() {
-  const currentBoard = boardModule.cells;
-  const tempArray = [];
-  tempArray.push(turn === currentBoard[0] && turn === currentBoard[1] && turn === currentBoard[2]);
-  tempArray.push(turn === currentBoard[3] && turn === currentBoard[4] && turn === currentBoard[5]);
-  tempArray.push(turn === currentBoard[6] && turn === currentBoard[7] && turn === currentBoard[8]);
-  tempArray.push(turn === currentBoard[0] && turn === currentBoard[3] && turn === currentBoard[6]);
-  tempArray.push(turn === currentBoard[1] && turn === currentBoard[4] && turn === currentBoard[7]);
-  tempArray.push(turn === currentBoard[2] && turn === currentBoard[5] && turn === currentBoard[8]);
-  tempArray.push(turn === currentBoard[0] && turn === currentBoard[4] && turn === currentBoard[8]);
-  tempArray.push(turn === currentBoard[6] && turn === currentBoard[4] && turn === currentBoard[2]);
-  return tempArray.some(x => x === true);
-}
+  const checkDraw = () => {
+    if ((cells.every(x => x !== '')) && !checkWin()) return true;
+    return false;
+  };
 
-function checkDraw() {
-  if ((boardModule.cells.every(x => x !== '')) && !checkWin()) return true;
-  return false;
-}
+  const fillBoardCell = (index) => {
+    if (cells[index - 1] === '') {
+      cells[index - 1] = turn;
+      return index;
+    }
+    return -1;
+  };
 
-const Player = (name, score, symbol) => ({ name, score, symbol });
+  return { cells, checkWin, fillBoardCell, checkDraw };
+})();
+
+const Player = (name, score, symbol) => { 
+  let _score = 0;
+  const getScore = () => _score;
+  const increaseScore = () => _score += 1;
+  return {name, score, symbol, increaseScore, getScore}
+};
 
 function showMessageWinner() {
   const winMessage = document.getElementById('win-message');
   if (turn === player1.symbol) {
     winMessage.innerHTML = `${player1.name} wins this round!`;
-    player1.score += 1;
+    player1.increaseScore;
   }
   if (turn === player2.symbol) {
     winMessage.innerHTML = `${player2.name} wins this round!`;
-    player2.score += 1;
+    player2.increaseScore;
   }
-}
-
-function showMessageDraw() {
-  const winMessage = document.getElementById('win-message');
-  winMessage.innerHTML = 'It\'s a draw';
-}
-
-function showElement(elementId) {
-  const form = document.getElementById(elementId);
-  form.style.display = 'block';
-}
-
-function updateScores() {
-  document.getElementById('score-player-1').innerHTML = player1.score;
-  document.getElementById('score-player-2').innerHTML = player2.score;
 }
 
 function takeTurn(cellId, index) {
@@ -69,15 +76,15 @@ function takeTurn(cellId, index) {
     const cell = document.getElementById(cellId);
     const turnSuccess = fillBoardCell(index);
     if (turnSuccess !== -1) {
-      if (checkWin()) {
-        showElement('win-screen');
+      if (boardModule.checkWin()) {
+        displayModule.showElement('win-screen');
         showMessageWinner();
-        updateScores();
+        displayModule.updateScores();
         continueGame = false;
       }
       if (checkDraw()) {
-        showElement('win-screen');
-        showMessageDraw();
+        displayModule.showElement('win-screen');
+        displayModule.showMessageDraw();
         continueGame = false;
       }
       cell.innerHTML = `<img class='board-img' src='img/tictactoe${turn}.svg'>`;
@@ -123,7 +130,7 @@ function cleanForm() {
 function newGame() {
   cleanCells();
   hideElement('board');
-  showElement('players');
+  displayModule.showElement('players');
   cleanForm();
   continueGame = true;
 }
@@ -133,16 +140,16 @@ function addOnClickEvent(element, action) {
 }
 
 function startGame() {
-  showElement('board');
-  showElement('reset-top-button');
+  displayModule.showelement('board');
+  displayModule.showElement('reset-top-button');
   const namePlayer1 = document.getElementById('PlayerName1');
   const namePlayer2 = document.getElementById('PlayerName2');
   const symbol = document.getElementById('inputSymbolGame');
 
 
   if (namePlayer1.value === '') {
-    player1 = Player('player-1', 0);
-    player2 = Player('player-2', 0);
+    player1 = Player('player-1');
+    player2 = Player('player-2');
   } else {
     player1 = Player(namePlayer1.value, 0);
     player2 = Player(namePlayer2.value, 0);
@@ -162,14 +169,14 @@ function startGame() {
 
   document.getElementById('name-player-1').innerHTML = player1.name;
   document.getElementById('name-player-2').innerHTML = player2.name;
-  updateScores();
+  displayModule.updateScores();
 
   hideElement('players');
 }
 
 window.onload = function () {
   hideElement('board');
-  showElement('players');
+  displayModule.showElement('players');
   hideElement('reset-top-button');
 
   const newGameButton = document.getElementById('new-game-button');
