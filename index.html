@@ -1,33 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/style.css">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-    <title>JS Library</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style/style.css" />
+
+    <title>JS tic-tac-toe</title>
   </head>
   <body>
-
-
     <ul class="nav justify-content-center nav-game">
       <li class="nav-item">
-        <span class="nav-link active" >Player 1 <span>Carlos</span></span>
-        
-      </li>      
+        <span class="nav-link active">
+          <b>Player 1: </b><span id="name-player-1">[name]</span>
+          <b>Score: </b><span id="score-player-1">[score]</span>
+        </span>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="#" onclick="resetGame()">reset</a>
       </li>
       <li class="nav-item">
-        <span class="nav-link active" >Player 2 <span>Pedro</span></span>
-        
+        <span class="nav-link active">
+          <b>Player 2: </b><span id="name-player-2">[name]</span>
+          <b>Score: </b><span id="score-player-2"></span>
+        </span>
       </li>
     </ul>
 
     <div id="board">
-      <img class="board-img" src="img/tictactoe.svg">
+      <img class="board-img" src="img/tictactoe.svg" />
       <div id="cell-1" class="cell" onclick="takeTurn('cell-1', 1)"></div>
       <div id="cell-2" class="cell" onclick="takeTurn('cell-2', 2)"></div>
       <div id="cell-3" class="cell" onclick="takeTurn('cell-3', 3)"></div>
@@ -38,22 +48,61 @@
       <div id="cell-8" class="cell" onclick="takeTurn('cell-8', 8)"></div>
       <div id="cell-9" class="cell" onclick="takeTurn('cell-9', 9)"></div>
     </div>
-    
-    <div class="wrapper-form">
-      <div id="players" class="d-flex flex-column justify-content-center player-form">
-          <label for="staticEmail" class="col col-form-label mt-1">Name Player 1</label>
-          <input class="form-control mt-1" type="text" placeholder="your name here" id="PlayerName1">   
-          <label for="staticEmail" class="col col-form-label mt-1">Name Player 2</label>   
-          <input class="form-control mt-1" type="text" placeholder="Your name here" id="playerName2">      
-          <button type="button" class="btn btn-success mt-3" onclick="startGame()">Start the game</button>
-      </div>
+    <div id="win-screen" class="w-100">
+      <h2 id="win-message"></h2>
+      <button type="button" onclick="resetGame(), hideElement('win-screen')" class="btn btn-success">Reset</button>
     </div>
     
-
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-3 col-lg-3"></div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
+          <div id="players">
+            <label for="staticEmail" class="col col-form-label mt-1"
+              >Name Player 1</label
+            >
+            <input
+              class="form-control mt-1"
+              type="text"
+              placeholder="your name here"
+              id="PlayerName1"
+            />
+            <label for="staticEmail" class="col col-form-label mt-1"
+              >Name Player 2</label
+            >
+            <input
+              class="form-control mt-1"
+              type="text"
+              placeholder="Your name here"
+              id="PlayerName2"
+            />
+            <button
+              type="button"
+              class="btn btn-success mt-3"
+              onclick="startGame()"
+            >
+              Start the game
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="js/app.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

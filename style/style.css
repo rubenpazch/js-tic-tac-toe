@@ -76,11 +76,16 @@ body {
   left: 69%;
 }
 
+#win-screen {
+  text-align: center;
+  display: none;
+}
+
 .nav-game {
   background-color: #b1ecb1;
 }
 
-.player-form{
+.w-30 {
   width: 30%;    
 }
 

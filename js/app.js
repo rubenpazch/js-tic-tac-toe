@@ -1,4 +1,6 @@
 let turn = "X";
+let player1;
+let player2;
 
 const boardModule = (() => {
   const cells = ["", "", "", "", "", "", "", "", ""];
@@ -15,7 +17,10 @@ function fillBoardCell(index) {
 }
 
 function checkDraw(){
-  return boardModule.cells.every(x => x != "");
+  if((boardModule.cells.every(x => x != "")) && !checkWin())
+    return true;
+  else
+    return false;
 }
 
 const Player = (name, score) => {
@@ -42,10 +47,20 @@ function takeTurn(cellId, index) {
   let turnSuccess = fillBoardCell(index);
   
   if (turnSuccess != -1){
+    let winMessage = document.getElementById("win-message");
     if (checkWin()){
-      console.log("there is a winner");
+      showElement("win-screen");
+      if(turn == "X"){
+        winMessage.innerHTML = `${player1.name} wins this round!`;
+        player1.score += 1;
+      } else {
+        winMessage.innerHTML = `${player2.name} wins this round!`;
+        player2.score += 1;
+      }
+      updateScores();
     } else if (checkDraw()){
-      console.log("is a draw");
+      showElement("win-screen");
+      winMessage.innerHTML = `It's a draw`;
     }
 
     cell.innerHTML = `<img class='board-img' src='img/tictactoe${turn}.svg'>`;
@@ -73,26 +88,36 @@ function cleanCells(){
 function hideElement(elementId) {
   const form = document.getElementById(elementId);
   form.style.display = 'none';
+  console.log("hiding " + elementId);
 }
 
 function showElement(elementId) {
   const form = document.getElementById(elementId);
   form.style.display = 'block';
+  console.log("showing " + elementId);
 }
 
 
 window.onload = function() {
   hideElement("board");
-  showElement("players")
+  showElement("players");
 };
+
+function updateScores() {
+  document.getElementById("score-player-1").innerHTML = "Score: " + player1.score;
+  document.getElementById("score-player-2").innerHTML = "Score: " + player2.score;
+}
 
 function startGame(){
   showElement("board");
-  hideElement("players")
-  let namePlayer1 = document.getElementById("namePlayer1");
-  let namePlayer2 = document.getElementById("namePlayer2");
-  player1 = Player(namePlayer1.value);  
-  player2 = Player(namePlayer2.value);  
 
-  
+  let namePlayer1 = document.getElementById("PlayerName1");
+  let namePlayer2 = document.getElementById("PlayerName2");
+  player1 = Player(namePlayer1.value, 0);  
+  player2 = Player(namePlayer2.value, 0);
+  document.getElementById("name-player-1").innerHTML = player1.name;
+  document.getElementById("name-player-2").innerHTML = player2.name;
+  updateScores();
+
+  hideElement("players");
 }
