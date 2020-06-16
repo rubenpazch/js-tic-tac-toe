@@ -86,11 +86,11 @@ body {
 }
 
 .w-30 {
-  width: 30%;    
+  width: 30%;
 }
 
-.wrapper-form{
-  width: 100%;  
+.wrapper-form {
+  width: 100%;
   display: flex;
   flex-flow: row;
   justify-content: center;
