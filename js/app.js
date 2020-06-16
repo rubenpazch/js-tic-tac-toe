@@ -1,6 +1,7 @@
 let turn = "X";
 let player1;
 let player2;
+let continueGame = true;
 
 const boardModule = (() => {
   const cells = ["", "", "", "", "", "", "", "", ""];
@@ -41,40 +42,53 @@ function checkWin() {
   return temp_array.some( x => x == true );
 }
 
+function showMessageWinner(){
+  let winMessage = document.getElementById("win-message");
+  if (turn == "X"){
+    winMessage.innerHTML = `${player1.name} wins this round!`;
+    player1.score += 1;
+  } 
+  if (turn == "O"){
+    winMessage.innerHTML = `${player2.name} wins this round!`;
+    player2.score += 1;
+  }
+} 
+
+function showMessageDraw(){
+  let winMessage = document.getElementById("win-message");
+  winMessage.innerHTML = `It's a draw`;
+}
+
 function takeTurn(cellId, index) {
-
-  cell = document.getElementById(cellId);
-  let turnSuccess = fillBoardCell(index);
-  
-  if (turnSuccess != -1){
-    let winMessage = document.getElementById("win-message");
-    if (checkWin()){
-      showElement("win-screen");
-      if(turn == "X"){
-        winMessage.innerHTML = `${player1.name} wins this round!`;
-        player1.score += 1;
-      } else {
-        winMessage.innerHTML = `${player2.name} wins this round!`;
-        player2.score += 1;
+  if (continueGame){
+    cell = document.getElementById(cellId);
+    let turnSuccess = fillBoardCell(index);
+    if (turnSuccess != -1){
+      if (checkWin()){
+        showElement("win-screen");
+        showMessageWinner();
+        updateScores();
+        continueGame = false;
       }
-      updateScores();
-    } else if (checkDraw()){
-      showElement("win-screen");
-      winMessage.innerHTML = `It's a draw`;
-    }
-
-    cell.innerHTML = `<img class='board-img' src='img/tictactoe${turn}.svg'>`;
-    if (turn == "X") {
-      turn = "O";
-    } else {
-      turn = "X";
-    }
+      if (checkDraw()){
+        showElement("win-screen");
+        showMessageDraw();
+        continueGame = false;
+      }
+      cell.innerHTML = `<img class='board-img' src='img/tictactoe${turn}.svg'>`;
+      if (turn == "X") {
+        turn = "O";
+      } else {
+        turn = "X";
+      }
+    }  
   }  
 }
 
 function resetGame(){
   boardModule.cells = ["", "", "", "", "", "", "", "", ""];
   cleanCells();
+  continueGame = true;
 }
 
 function cleanCells(){

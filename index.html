@@ -18,7 +18,7 @@
     <title>JS tic-tac-toe</title>
   </head>
   <body>
-    <ul class="nav justify-content-center nav-game">
+    <ul class="nav justify-content-center nav-game p-2">
       <li class="nav-item">
         <span class="nav-link active">
           <b>Player 1: </b><span id="name-player-1">[name]</span>
@@ -26,7 +26,8 @@
         </span>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" onclick="resetGame()">reset</a>
+        <button type="button" onclick="resetGame(), hideElement('win-screen')" class="btn btn-success">Reset</button>
+        <button type="button" onclick="resetGame(), hideElement('win-screen')" class="btn btn-info">Restart</button>
       </li>
       <li class="nav-item">
         <span class="nav-link active">
