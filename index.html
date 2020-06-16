@@ -21,18 +21,20 @@
     <ul class="nav justify-content-center nav-game p-2">
       <li class="nav-item">
         <span class="nav-link active">
-          <b>Player 1: </b><span id="name-player-1">[name]</span>
+          <b>Player 1: <span id="show-symbol-player-1">( X ) </span> </b><span id="name-player-1">[name]</span>
           <b>Score: </b><span id="score-player-1">[score]</span>
         </span>
       </li>
-      <li class="nav-item">
-        <button type="button" onclick="resetGame(), hideElement('win-screen')" class="btn btn-success">Reset</button>
-        <button type="button" onclick="resetGame(), hideElement('win-screen')" class="btn btn-info">Restart</button>
+      <li>
+        <button type="button" onclick="resetGame(), hideElement('win-screen')" class="btn btn-success mr-2" id="reset-top-button">Reset board</button>
+      </li>
+      <li class="nav-item">        
+        <button type="button" onclick="newGame()" class="btn btn-info">New game</button>
       </li>
       <li class="nav-item">
         <span class="nav-link active">
-          <b>Player 2: </b><span id="name-player-2">[name]</span>
-          <b>Score: </b><span id="score-player-2"></span>
+          <b>Player 2: <span id="show-symbol-player-1">( O ) </span></b><span id="name-player-2">[name]</span>
+          <b>Score: </b><span id="score-player-2">[score]</span>
         </span>
       </li>
     </ul>
@@ -51,7 +53,7 @@
     </div>
     <div id="win-screen" class="w-100">
       <h2 id="win-message"></h2>
-      <button type="button" onclick="resetGame(), hideElement('win-screen')" class="btn btn-success">Reset</button>
+      <button type="button" onclick="resetGame(), hideElement('win-screen')" class="btn btn-success">Reset board</button>
     </div>
     
     <div class="container">
@@ -59,29 +61,22 @@
         <div class="col-sm-12 col-md-3 col-lg-3"></div>
         <div class="col-sm-12 col-md-6 col-lg-6">
           <div id="players">
-            <label for="staticEmail" class="col col-form-label mt-1"
-              >Name Player 1</label
-            >
-            <input
-              class="form-control mt-1"
-              type="text"
-              placeholder="your name here"
-              id="PlayerName1"
-            />
-            <label for="staticEmail" class="col col-form-label mt-1"
-              >Name Player 2</label
-            >
-            <input
-              class="form-control mt-1"
-              type="text"
-              placeholder="Your name here"
-              id="PlayerName2"
-            />
-            <button
-              type="button"
-              class="btn btn-success mt-3"
-              onclick="startGame()"
-            >
+            <label for="staticEmail" class="col col-form-label mt-1">Name Player 1</label>
+            <input class="form-control mt-1" type="text" placeholder="your name here" id="PlayerName1"/>
+            <br>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+              </div>
+              <select class="custom-select" id="inputSymbolGame">
+                <option selected>Symbol...</option>
+                <option value="1">X</option>
+                <option value="2">O</option>                
+              </select>
+            </div>
+            <label for="staticEmail" class="col col-form-label mt-1" >Name Player 2</label>
+            <input class="form-control mt-1" type="text" placeholder="Your name here" id="PlayerName2"/>
+            <button type="button" class="btn btn-success mt-3" onclick="startGame()">
               Start the game
             </button>
           </div>
