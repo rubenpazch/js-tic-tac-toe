@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+  <link rel="stylesheet" href="style/style.css" />
+
+  <title>JS tic-tac-toe</title>
+</head>
+
+<body>
+  <ul class="nav justify-content-center nav-game p-2">
+    <li></li>
+    <li class="nav-item">
+      <span class="nav-link active">
+        ( <span id="show-symbol-player-1"> [symbol] </span> )
+        <b>Player 1: </b><span id="name-player-1">[name]</span>
+        <b>Score: </b><span id="score-player-1">[score]</span>
+      </span>
+    </li>
+    <li>
+      <button type="button"  class="btn btn-success mr-2" id="reset-top-button">Reset board</button>
+    </li>
+    <li class="nav-item">
+      <button id="new-game-button" type="button" class="btn btn-info">New game</button>
+    </li>
+    <li class="nav-item active">
+      <span class="nav-link active">
+        ( <span id="show-symbol-player-2"> [symbol] </span> )
+        <b>Player 2:</b>
+        <span id="name-player-2">[name]</span>
+        <b>Score: </b><span id="score-player-2">[score]</span>
+      </span>
+    </li>
+
+  </ul>
+
+  <div id="board">
+    <img class="board-img" src="img/tictactoe.svg" />
+    <div id="cell-1" class="cell" onclick="boardModule.takeTurn('cell-1', 1)"></div>
+    <div id="cell-2" class="cell" onclick="boardModule.takeTurn('cell-2', 2)"></div>
+    <div id="cell-3" class="cell" onclick="boardModule.takeTurn('cell-3', 3)"></div>
+    <div id="cell-4" class="cell" onclick="boardModule.takeTurn('cell-4', 4)"></div>
+    <div id="cell-5" class="cell" onclick="boardModule.takeTurn('cell-5', 5)"></div>
+    <div id="cell-6" class="cell" onclick="boardModule.takeTurn('cell-6', 6)"></div>
+    <div id="cell-7" class="cell" onclick="boardModule.takeTurn('cell-7', 7)"></div>
+    <div id="cell-8" class="cell" onclick="boardModule.takeTurn('cell-8', 8)"></div>
+    <div id="cell-9" class="cell" onclick="boardModule.takeTurn('cell-9', 9)"></div>
+  </div>
+  <div id="win-screen" class="w-100">
+    <h2 id="win-message"></h2>
+    <button  id="reset-bottom-button"  type="button" class="btn btn-success">Reset board</button>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-3 col-lg-3"></div>
+      <div class="col-sm-12 col-md-6 col-lg-6">
+        <div id="players">
+          <label for="staticEmail" class="col col-form-label mt-1">Name Player 1</label>
+          <input class="form-control mt-1" type="text" placeholder="your name here" id="PlayerName1" />
+          <br>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Options</label>
+            </div>
+            <select class="custom-select" id="inputSymbolGame">
+              <option selected>Symbol...</option>
+              <option value="1">X</option>
+              <option value="2">O</option>
+            </select>
+          </div>
+          <label for="staticEmail" class="col col-form-label mt-1">Name Player 2</label>
+          <input class="form-control mt-1" type="text" placeholder="Your name here" id="PlayerName2" />
+          <button id='start-game-button' type="button" class="btn btn-success mt-3">
+            Start the game
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+  </script>
+</body>
+
+</html>

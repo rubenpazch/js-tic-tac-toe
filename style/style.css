@@ -1,0 +1,100 @@
+body {
+  width: 100%;
+}
+
+#board {
+  position: relative;
+  width: 30%;
+  margin: 0 auto;
+  margin: 20vh 0 0 35vw;
+}
+
+.board-img {
+  width: 100%;
+}
+
+.cell {
+  width: 30%;
+  height: 30%;
+  opacity: 0;
+}
+
+#cell-1 {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+}
+
+#cell-1 img {
+  width: 100%;
+}
+
+#cell-2 {
+  position: absolute;
+  top: 2%;
+  left: 36%;
+}
+
+#cell-3 {
+  position: absolute;
+  top: 2%;
+  left: 69%;
+}
+
+#cell-4 {
+  position: absolute;
+  top: 36%;
+  left: 2%;
+}
+
+#cell-5 {
+  position: absolute;
+  top: 36%;
+  left: 36%;
+}
+
+#cell-6 {
+  position: absolute;
+  top: 36%;
+  left: 69%;
+}
+
+#cell-7 {
+  position: absolute;
+  top: 69%;
+  left: 2%;
+}
+
+#cell-8 {
+  position: absolute;
+  top: 69%;
+  left: 36%;
+}
+
+#cell-9 {
+  position: absolute;
+  top: 69%;
+  left: 69%;
+}
+
+#win-screen {
+  text-align: center;
+  display: none;
+}
+
+.nav-game {
+  background-color: #b1ecb1;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.wrapper-form {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20vh;
+}
