@@ -1,0 +1,27 @@
+{
+  "name": "js-tic-tac-toe",
+  "version": "1.0.0",
+  "description": "The purpose of this project is to build the TIC-TAC-TOE game to play on the browser, it is required for this project using Factory functions and module  pattern using javascript.",
+  "private": true,
+  "scripts": {
+    "build": "webpack",
+    "watchbuild": "webpack --config webpack.config.js --watch",
+    "test": "jest",
+    "watchtest": "jest --watch *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubenpazch/js-tic-tac-toe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rubenpazch/js-tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/rubenpazch/js-tic-tac-toe#readme",
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  }
+}
