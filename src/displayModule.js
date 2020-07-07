@@ -20,7 +20,7 @@ export const displayModule = (() => {
 
   const updateScores = () => {
     document.getElementById('score-player-1').innerHTML = globals.player1.getScore();
-    document.getElementById('score-player-2').innerHTML = globals.globals.player2.getScore();
+    document.getElementById('score-player-2').innerHTML = globals.player2.getScore();
   };
 
   const cleanCells = () => {
@@ -62,7 +62,7 @@ export const displayModule = (() => {
   };
 
   const initializeBoardButtons = () => {
-    for(let i = 0; i < 9; i+=1){
+    for(let i = 1; i <= 9; i+=1){
       document.getElementById(`cell-${i}`).addEventListener("click", function() {
         boardModule.takeTurn(`cell-${i}`, i);
       });

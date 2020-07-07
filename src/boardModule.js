@@ -46,13 +46,13 @@ export const boardModule = (() => {
   };
 
   const startGame = () => {
+    console.log('works');
     displayModule.showElement('board');
     displayModule.initializeBoardButtons();
     displayModule.showElement('reset-top-button');
     const namePlayer1 = document.getElementById('PlayerName1');
     const namePlayer2 = document.getElementById('PlayerName2');
     const symbol = document.getElementById('inputSymbolGame');
-
 
     if (namePlayer1.value === '') {
       globals.player1 = Player('player-1', 'X');
@@ -61,7 +61,7 @@ export const boardModule = (() => {
       globals.player1 = Player(namePlayer1.value);
       globals.player2 = Player(namePlayer2.value);
     }
-
+    
     if (symbol.value === 1) {
       globals.player1.symbol = 'X';
       globals.player2.symbol = 'O';
@@ -70,15 +70,14 @@ export const boardModule = (() => {
       globals.player2.symbol = 'X';
     }
 
+   document.getElementById('show-symbol-player-1').innerHTML = globals.player1.symbol;
+   document.getElementById('show-symbol-player-2').innerHTML = globals.player2.symbol;
 
-    document.getElementById('show-symbol-player-1').innerHTML = globals.player1.symbol;
-    document.getElementById('show-symbol-player-2').innerHTML = globals.player2.symbol;
+   document.getElementById('name-player-1').innerHTML = globals.player1.name;
+   document.getElementById('name-player-2').innerHTML = globals.player2.name;
+   displayModule.updateScores();
 
-    document.getElementById('name-player-1').innerHTML = globals.player1.name;
-    document.getElementById('name-player-2').innerHTML = globals.player2.name;
-    displayModule.updateScores();
-
-    displayModule.hideElement('players');
+   displayModule.hideElement('players');
   };
 
   const showMessageWinner = () => {
@@ -97,6 +96,7 @@ export const boardModule = (() => {
     if (globals.continueGame) {
       const cell = document.getElementById(cellId);
       const turnSuccess = fillBoardCell(index);
+      
       if (turnSuccess !== -1) {
         displayModule.fadeIn(cell);
         if (checkWin()) {
