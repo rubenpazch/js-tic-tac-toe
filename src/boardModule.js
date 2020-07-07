@@ -46,7 +46,6 @@ export const boardModule = (() => {
   };
 
   const startGame = () => {
-    console.log('works');
     displayModule.showElement('board');
     displayModule.initializeBoardButtons();
     displayModule.showElement('reset-top-button');
